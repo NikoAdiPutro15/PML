@@ -22,4 +22,18 @@ class UploadController extends Controller
         }
     }
 
+    public function uploadMultipleImage(Request $request)
+    {
+        if ($request->has('image')) {
+            $images = $request->image;
+            foreach ($images as $key => $image) {
+                $nameFile = time() . $key . '.' . $image->getClientOriginalExtension();
+                $path = public_path('upload/images');
+                $image->move($path, $nameFile);
+            }
+            return response()->json([
+                'status' => 'upload successfully',
+            ]);
+        }
+    }
 }
